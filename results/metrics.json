@@ -1,0 +1,500 @@
+{
+  "task": "task-3 cnn1.py 1D-CNN 训练与评估",
+  "script": "cnn1.py",
+  "dataset": {
+    "path": "data/clean_signal1.npy",
+    "n_raw_signals": 800,
+    "n_per_sample": 36000,
+    "n_windows_total": 109600,
+    "meta": {
+      "format_version": "1.0",
+      "fs": 12000.0,
+      "t_per_sample": 3.0,
+      "n_per_sample": 36000.0,
+      "window": 1024.0,
+      "stride": 256.0,
+      "n_samples_per_class": 400.0,
+      "func_f": 50.0,
+      "bpfo": 158.75324675324677,
+      "bpfi": 241.24675324675326,
+      "bsf": 116.0658183126697,
+      "ftf": 19.844155844155846,
+      "impact_freq_fault": 158.75324675324677,
+      "label_map": {
+        "0": "normal",
+        "1": "fault"
+      },
+      "seed": 42.0,
+      "generated_by": "preprocess1.py",
+      "n_windows_per_segment": 137.0,
+      "n_windows_total": 109600.0,
+      "n_segments": 800.0,
+      "train_ratio": 0.8,
+      "class_names": [
+        "normal",
+        "fault"
+      ],
+      "amp_rot": 1.0,
+      "amp_noise": 0.15,
+      "amp_impulse": 2.0,
+      "impulse_decay": 800.0,
+      "impact_interval_s": 0.0062990837696335076,
+      "resonance_band_hz": [
+        500.0,
+        4000.0
+      ],
+      "impact_phase_jitter": 0.05,
+      "harmonics": [
+        1,
+        2,
+        3
+      ],
+      "segment_layout": "raw[0:400]=normal(0), raw[400:800]=fault(1)"
+    }
+  },
+  "split": {
+    "strategy": "dataio.split_by_segment（按 seg_id 划分原始信号，防窗口重叠泄漏）",
+    "train_ratio": 0.8,
+    "n_train_windows": 87680,
+    "n_test_windows": 21920,
+    "n_train_segments": 640,
+    "n_test_segments": 160,
+    "train_class_counts": {
+      "total": 87680,
+      "normal": 44251,
+      "fault": 43429
+    },
+    "test_class_counts": {
+      "total": 21920,
+      "normal": 10549,
+      "fault": 11371
+    }
+  },
+  "normalization": {
+    "mean": 0.013106644101273775,
+    "std": 0.7909614064964641,
+    "eps": 1e-08,
+    "source": "train_only",
+    "n_train_windows": 87680
+  },
+  "config_snapshot": {
+    "seed": 42,
+    "epochs": 40,
+    "batch_size": 64,
+    "lr": 0.003,
+    "lr_decay": 0.97,
+    "lr_min": 1e-05,
+    "weight_decay": 0.0001,
+    "dropout": 0.3,
+    "grad_clip": 5.0,
+    "early_stop_patience": 8,
+    "train_ratio": 0.8,
+    "window": 1024,
+    "stride": 256,
+    "n_filters": [
+      16,
+      32,
+      64
+    ],
+    "kernel_sizes": [
+      9,
+      7,
+      5
+    ],
+    "pool_size": 2,
+    "hidden_dim": 64,
+    "num_classes": 2,
+    "n_demo_samples": 5
+  },
+  "training_scale": {
+    "note": "部分轮控制：只减少每轮看多少数据，不改网络/损失/优化器/划分；由脚本级常量 DEFAULT_STEPS_PER_EPOCH 控制，未写入 config.py",
+    "steps_per_epoch": 90,
+    "steps_run_per_epoch": 90,
+    "full_steps_per_epoch": 1370,
+    "windows_per_epoch": 5760,
+    "full_epoch_windows": 87680,
+    "time_budget_seconds": 900.0,
+    "budget_exhausted": false
+  },
+  "history": {
+    "epoch": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "train_loss": [
+      0.04422906536411675,
+      0.0005044075208893951,
+      0.00017490555417478188,
+      0.00011440773774261794,
+      9.124356958838891e-05,
+      0.00019306997849323832,
+      9.013177394384305e-05,
+      6.210149944713016e-05,
+      7.277456886388084e-05
+    ],
+    "train_acc": [
+      0.9817708333333334,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "test_loss": [
+      2.7107399811113188e-05,
+      6.189454036126698e-06,
+      3.02333236370425e-06,
+      1.9742953329253135e-06,
+      1.3268514504349281e-06,
+      1.7436663798657598e-06,
+      7.715912982611843e-07,
+      5.400362765686601e-07,
+      4.81475850047389e-07
+    ],
+    "test_acc": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "lr": [
+      0.003,
+      0.00291,
+      0.0028226999999999996,
+      0.0027380189999999995,
+      0.0026558784299999996,
+      0.0025762020770999997,
+      0.0024989160147869996,
+      0.0024239485343433894,
+      0.0023512300783130875
+    ],
+    "grad_norm": [
+      0.15751730610730283,
+      0.005575070557906826,
+      0.0029221380420893124,
+      0.0021763232478556717,
+      0.002098145328409245,
+      0.004113944320675798,
+      0.0019959989075503414,
+      0.0018582858671564704,
+      0.0019654656770740925
+    ],
+    "epoch_seconds": [
+      23.769978800000104,
+      23.723181299999965,
+      23.771889800000054,
+      24.450312499999995,
+      24.859823699999993,
+      28.971481699999913,
+      27.513501500000075,
+      30.124245199999905,
+      25.659626000000117
+    ]
+  },
+  "training_info": {
+    "epochs_run": 9,
+    "total_seconds": 232.84429850000004,
+    "best_epoch": 1,
+    "best_test_acc": 1.0,
+    "mean_epoch_seconds": 25.87156005555557,
+    "early_stopped": true,
+    "optimizer": "Adam(beta1=0.9, beta2=0.999, eps=1e-8)",
+    "weight_decay": 0.0001,
+    "grad_clip": 5.0,
+    "steps_per_epoch": 90,
+    "steps_run_per_epoch": 90,
+    "full_steps_per_epoch": 1370,
+    "time_budget": 900.0,
+    "budget_exhausted": false
+  },
+  "test_accuracy": 1.0,
+  "test_loss": 4.81475850047389e-07,
+  "confusion_matrix": [
+    [
+      10549,
+      0
+    ],
+    [
+      0,
+      11371
+    ]
+  ],
+  "confusion_matrix_labels": {
+    "rows": "真实标签",
+    "cols": "预测标签",
+    "classes": [
+      "normal",
+      "fault"
+    ]
+  },
+  "confusion_matrix_accuracy_check": {
+    "accuracy_from_cm": 1.0,
+    "matches_test_accuracy": true,
+    "cm_sum": 21920,
+    "n_test_samples": 21920
+  },
+  "per_class": {
+    "normal": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 10549,
+      "tp": 10549,
+      "fp": 0,
+      "fn": 0
+    },
+    "fault": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "support": 11371,
+      "tp": 11371,
+      "fp": 0,
+      "fn": 0
+    }
+  },
+  "trainable_params": 18594,
+  "trainable_params_manual": 18594,
+  "trainable_params_match_manual": true,
+  "param_summary": [
+    {
+      "name": "layer0.Conv1d.W",
+      "shape": [
+        16,
+        1,
+        9
+      ],
+      "size": 144,
+      "l2_decay": true
+    },
+    {
+      "name": "layer0.Conv1d.b",
+      "shape": [
+        16
+      ],
+      "size": 16,
+      "l2_decay": false
+    },
+    {
+      "name": "layer1.BatchNorm1d.gamma",
+      "shape": [
+        16
+      ],
+      "size": 16,
+      "l2_decay": false
+    },
+    {
+      "name": "layer1.BatchNorm1d.beta",
+      "shape": [
+        16
+      ],
+      "size": 16,
+      "l2_decay": false
+    },
+    {
+      "name": "layer4.Conv1d.W",
+      "shape": [
+        32,
+        16,
+        7
+      ],
+      "size": 3584,
+      "l2_decay": true
+    },
+    {
+      "name": "layer4.Conv1d.b",
+      "shape": [
+        32
+      ],
+      "size": 32,
+      "l2_decay": false
+    },
+    {
+      "name": "layer5.BatchNorm1d.gamma",
+      "shape": [
+        32
+      ],
+      "size": 32,
+      "l2_decay": false
+    },
+    {
+      "name": "layer5.BatchNorm1d.beta",
+      "shape": [
+        32
+      ],
+      "size": 32,
+      "l2_decay": false
+    },
+    {
+      "name": "layer8.Conv1d.W",
+      "shape": [
+        64,
+        32,
+        5
+      ],
+      "size": 10240,
+      "l2_decay": true
+    },
+    {
+      "name": "layer8.Conv1d.b",
+      "shape": [
+        64
+      ],
+      "size": 64,
+      "l2_decay": false
+    },
+    {
+      "name": "layer9.BatchNorm1d.gamma",
+      "shape": [
+        64
+      ],
+      "size": 64,
+      "l2_decay": false
+    },
+    {
+      "name": "layer9.BatchNorm1d.beta",
+      "shape": [
+        64
+      ],
+      "size": 64,
+      "l2_decay": false
+    },
+    {
+      "name": "layer14.Linear.W",
+      "shape": [
+        64,
+        64
+      ],
+      "size": 4096,
+      "l2_decay": true
+    },
+    {
+      "name": "layer14.Linear.b",
+      "shape": [
+        64
+      ],
+      "size": 64,
+      "l2_decay": false
+    },
+    {
+      "name": "layer17.Linear.W",
+      "shape": [
+        2,
+        64
+      ],
+      "size": 128,
+      "l2_decay": true
+    },
+    {
+      "name": "layer17.Linear.b",
+      "shape": [
+        2
+      ],
+      "size": 2,
+      "l2_decay": false
+    }
+  ],
+  "demo_samples": [
+    {
+      "test_index": 931,
+      "y_true": 0,
+      "y_pred": 0,
+      "y_true_name": "normal",
+      "y_pred_name": "normal",
+      "proba": [
+        0.9999991655349731,
+        8.541795750716119e-07
+      ],
+      "correct": true
+    },
+    {
+      "test_index": 1018,
+      "y_true": 0,
+      "y_pred": 0,
+      "y_true_name": "normal",
+      "y_pred_name": "normal",
+      "proba": [
+        0.9999991655349731,
+        8.370146247216326e-07
+      ],
+      "correct": true
+    },
+    {
+      "test_index": 7952,
+      "y_true": 0,
+      "y_pred": 0,
+      "y_true_name": "normal",
+      "y_pred_name": "normal",
+      "proba": [
+        0.9999988079071045,
+        1.2449718269635923e-06
+      ],
+      "correct": true
+    },
+    {
+      "test_index": 13002,
+      "y_true": 1,
+      "y_pred": 1,
+      "y_true_name": "fault",
+      "y_pred_name": "fault",
+      "proba": [
+        1.2811767646780936e-07,
+        0.9999998807907104
+      ],
+      "correct": true
+    },
+    {
+      "test_index": 18668,
+      "y_true": 1,
+      "y_pred": 1,
+      "y_true_name": "fault",
+      "y_pred_name": "fault",
+      "proba": [
+        1.6658066215313738e-07,
+        0.9999998807907104
+      ],
+      "correct": true
+    }
+  ],
+  "timing": {
+    "train_seconds": 232.84429850000004,
+    "mean_epoch_seconds": 25.87156005555557,
+    "script_total_seconds": 266.6650000000001
+  },
+  "figures": {
+    "loss_curve": "figures/fig_loss_curve.png",
+    "accuracy_curve": "figures/fig_accuracy_curve.png",
+    "confusion_matrix": "figures/fig_confusion_matrix.png",
+    "single_sample_pred": "figures/fig_single_sample_pred.png"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "implementation": "纯 NumPy 手写 1D-CNN（无 torch/tensorflow/scipy/sklearn）",
+    "optimizer": "Adam(beta1=0.9, beta2=0.999, eps=1e-8)",
+    "matplotlib_fonts": [
+      "Microsoft YaHei",
+      "SimHei"
+    ]
+  },
+  "reproduce": {
+    "seed_derivation": "SEED=42（划分=42，参数初始化=43，打乱=44，Dropout=1042，演示抽样=49）",
+    "command": "python cnn1.py"
+  }
+}

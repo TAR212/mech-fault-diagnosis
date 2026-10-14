@@ -7,6 +7,15 @@
 > 本仓库把幻灯片上的三段式作业升级为**可复现、可验收**的工程化教学流水线：
 > 冻结配置与数据契约 → 三条脚本各自单一职责 → 全程带自检与量化指标 → 一键端到端验收。
 
+**文档导航**
+
+| 想知道什么 | 看哪份 |
+|---|---|
+| 快速上手、命令怎么敲、报错怎么办、产物怎么管、怎么发布到 GitHub | **[docs/RUNBOOK.md](docs/RUNBOOK.md)**（操作手册） |
+| 项目为什么这么设计、信号机理、网络结构、结果与局限 | **[docs/PROJECT.md](docs/PROJECT.md)**（项目说明） |
+| 参数速查、图索引、FAQ、进阶路线 | 本文（README） |
+| 实施计划、决策记录、偏差登记、验收清单 | [PLAN.md](PLAN.md) |
+
 ---
 
 ## 1. 项目简介与三步流水线
@@ -238,6 +247,9 @@ canonical 档位每轮只走打乱后的前 90 个 batch = **5760 个窗口/轮*
 mech-fault-diagnosis/
 ├── README.md                     # 本文件
 ├── PLAN.md                       # 方案与验收基线 + 偏差登记（Deviation Log）
+├── docs/
+│   ├── RUNBOOK.md                # 操作手册：SOP / 排障 / 产物管理 / 发布流程
+│   └── PROJECT.md                # 项目说明：架构 / 信号机理 / 网络结构 / 结果与局限
 ├── requirements.txt              # 依赖清单（仅 numpy / matplotlib）
 ├── .gitignore                    # 忽略 data/*.npy、__pycache__；保留 figures/*.png、results/metrics.json
 ├── config.py                     # [冻结] 唯一参数源 + 路径常量 + 绘图风格 + config/config_bp/bp 别名
@@ -266,7 +278,7 @@ mech-fault-diagnosis/
 ├── results/
 │   └── metrics.json              # 指标 + 配置快照 + 环境信息（**入库**，可追溯）
 └── tests/
-    ├── run_all.py                # 一键验收（本文件，3 条脚本 + 2 个自检）
+    ├── run_all.py                # 一键验收（3 条脚本 + 2 个自检）
     ├── test_preprocess.py        # 步骤 1 自检 14 项
     └── test_nn1d.py              # nn1d 自检 15 项
 ```

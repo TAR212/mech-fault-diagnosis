@@ -244,7 +244,7 @@ mech-fault-diagnosis/
 | A/B 单测 | ✅ | `tests/test_preprocess.py` **14/14** 全绿（Lead 实跑，exit=0） |
 | C 单测 | ✅ | `tests/test_nn1d.py` **15/15** 全绿 |
 | `tests/run_all.py` 一键验收 | ✅ | Lead 亲自执行 `tests/run_all.py --timeout 1800`（多次，含修复前后各一轮），每次都汇总表 **5/5 PASS**、退出码 0；最终验收跑总耗时 313.5 s（preprocess1 8.8 / fft1 3.8 / cnn1 289.9 / test_preprocess 6.9 / test_nn1d 4.1） |
-| README 与代码一致 | ✅ | 逐条对照 `config.py`（39 项参数 + 行号）与目录清单；机器化校验 README + PLAN 的 `文件:行号` 引用**逐条命中、零越界**（脚本 `_research_tmp/final_verify_all.py` 实测 60 条 / bad=0），目录树行数 688/917/664/94 与 `splitlines()` 实测一致 |
+| README 与代码一致 | ✅ | 逐条对照 `config.py`（39 项参数 + 行号）与目录清单；机器化校验 README + PLAN 的 `文件:行号` 引用**逐条命中、零越界**（60 条 / bad=0，且逐条比对被引用的那一行真实内容），目录树行数 688/917/678/94 与 `splitlines()` 实测一致 |
 | 纯净 GBK 重定向下可运行（**回归缺陷修复**） | ✅ | 修复前 `cnn1.py` 在 `python cnn1.py`（README 首推命令、无真实控制台）于训练前即 `UnicodeEncodeError: 'gbk' codec can't encode character '\u2714'`、退出码 1；修复后 `cnn1.py` / `tests/test_nn1d.py` 在 `PYTHONIOENCODING=gbk` + 重定向下退出码均 0（`tests/test_preprocess.py` 同条件亦为 0，但靠 `import preprocess1` 的传递性副作用，未自行加守卫），全库 `.py` 字符均 GBK 可编码 |
 
 **红线②（train/eval 模式）**：BatchNorm 推理用滑动平均、Dropout 只在训练期生效，已由 `tests/test_nn1d.py` 的
